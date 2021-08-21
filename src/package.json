@@ -1,10 +1,11 @@
 {
   "scripts": {
-    "test": "jest --coverage --collectCoverageFrom='src/**/*.js' --silent --ci --testLocationInResults --json --outputFile='report.json'",
-    "lint": "prettier --check src/**/*.js",
-    "format": "prettier --write src/**/*.js"
+    "test": "jest --coverage --collectCoverageFrom='./**/*.js' --silent --ci --testLocationInResults --json --outputFile='report.json'",
+    "lint": "prettier --check ./**/*.js",
+    "format": "prettier --write ./**/*.js"
   },
   "dependencies": {
+    "@moggiez/moggies-metrics": "^0.2.0",
     "axios": "^0.21.1"
   },
   "devDependencies": {

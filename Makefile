@@ -25,7 +25,7 @@ build-cleanup:
 	rm -rf ./dist/* & mkdir -p dist && rm -rf ./src/node_modules
 
 build: build-cleanup
-	cd src && npm i --only=prod && zip -r ../dist/metrics_saver_scheduled-event-driven.zip ./
+	cd src && npm i --only=prod && zip -r ../dist/metrics_saver_scheduled-scheduled.zip ./
 
 build-dev: build-cleanup
 	cd src && npm i
@@ -40,7 +40,7 @@ test:
 	npm run test
 
 update-lambda-fn: build
-	aws lambda update-function-code --function-name metrics_saver_scheduled-event-driven --zip-file fileb://$(shell pwd)/dist/metrics_saver_scheduled-event-driven.zip --publish | jq .FunctionArn
+	aws lambda update-function-code --function-name metrics_saver_scheduled-scheduled --zip-file fileb://$(shell pwd)/dist/metrics_saver_scheduled-scheduled.zip --publish | jq .FunctionArn
 
 # NPM COMMANDS
 install:

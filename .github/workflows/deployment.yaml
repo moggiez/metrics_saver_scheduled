@@ -92,5 +92,5 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: eu-west-1
 
-      - name: Deploy metrics_saver_scheduled-event-driven lambda
+      - name: Deploy metrics_saver_scheduled-scheduled lambda
         run: make update-lambda-fn
