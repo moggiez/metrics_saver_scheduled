@@ -17,6 +17,7 @@ const setLoadtestMetricsSaved = async (loadtest, loadtestsApiLambda) => {
 };
 
 exports.handler = async function (event, context, callback) {
+  const isPreview = "isPreview" in event && event.isPreview;
   const loadtestsApiLambda = new LambdaApiClient({
     functionName: "loadtests-api",
     AWS: AWS,
@@ -37,9 +38,15 @@ exports.handler = async function (event, context, callback) {
           organisationId: el.OrganisationId,
           loadtestId: el.LoadtestId,
         });
-
-        await cw.saveMetricDataToDb(loadtest.Item, "ResponseTime");
-        await setLoadtestMetricsSaved(loadtest.Item, loadtestsApiLambda);
+        if (isPreview) {
+          console.log(
+            "Will save metrics data for loadtest",
+            loadtest.LoadtestId
+          );
+        } else {
+          await cw.saveMetricDataToDb(loadtest, "ResponseTime");
+          await setLoadtestMetricsSaved(loadtest, loadtestsApiLambda);
+        }
       } catch (errLd) {
         console.log(errLd);
       }
