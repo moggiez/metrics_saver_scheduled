@@ -24,9 +24,14 @@ exports.handler = async function (event, context, callback) {
   });
 
   try {
-    let hourDateString = new Date().toISOString().substring(0, 13);
+    let hourDate = new Date();
+    hourDate.setHours(hourDate.getHours() - 1);
+    let hourDateString = hourDate.toISOString().substring(0, 13);
     if ("hourDateString" in event) {
       hourDateString = event.hourDateString;
+    }
+    if (isPreview) {
+      console.log("hourDateString is", hourDateString);
     }
     const data = await loadtestsApiLambda.invoke("getLoadtestsInPastHour", {
       hourDateString,

@@ -45,3 +45,30 @@ resource "aws_iam_policy" "cloudwatch_metrics_access" {
 
   policy = templatefile("templates/cloudwatch_metrics_access_policy.json", {})
 }
+
+resource "aws_iam_policy" "cw_logs" {
+  name        = "${var.domain_name}-${var.project_name}-CW-log"
+  path        = "/"
+  description = "IAM policy for logging from a lambda"
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : "logs:CreateLogGroup",
+        "Resource" : "arn:aws:logs:${var.region}:${var.account}:*"
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ],
+        "Resource" : [
+          "arn:aws:logs:${var.region}:${var.account}:log-group:/aws/lambda/${var.project_name}:*"
+        ]
+      }
+    ]
+  })
+}
